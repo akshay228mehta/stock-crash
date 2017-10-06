@@ -1,0 +1,86 @@
+<div class="container-fluid">
+	<!-- Page Heading -->
+	<div class="row">
+		<div class="col-xl-12">
+			<h1 class="page-header" style="text-align: center;">CPU Usages</h1>
+			<h6 class="page-header" style="text-align: center;">Last Updated:{{lastUpdate}}</h6>
+			<ol class="breadcrumb">
+				<li><i class="fa fa-dashboard"></i> <a
+					href="Javascript:void(0)" routerLink="/dashboard/home">
+						Dashboard</a></li>
+				<li class="active"><i class="fa fa-fw fa-bar-chart-o"></i>CPU Usages</li>
+					<div class="pull-right">
+				<span><input type="date"  id="datePick"  [(ngModel)]=date min={{minDate}} max={{todayDate}}/></span>
+				<span><button class="btn btn-success btn-xs" id="dateButton" (click)="updateDate()">Fetch</button></span>
+			</div>
+			<span><input type="search" (keyup) = "onKey()" placeholder="Search" [(ngModel)]="hostname"><span class="icon-bar"></span> </span>
+			</ol>
+		</div>
+	</div>
+
+
+
+	<div class="row">
+		<div class="col-xl-4" *ngIf=!flag style="margin-bottom:10%;"> 
+
+				<div id="tabCpuData"
+					style="min-width: 310px; height: 400px; max-width: 800px; margin: 0 auto">
+				<div class="table-responsive">
+					<table class="table table-fixed" id="appstatustable">
+						<thead>
+						<tr>
+							<th class="col-xs-3" style="padding-left:5px; ">Hostname</th>
+							<th class="col-xs-3">Memory</th>
+							<th class="col-xs-3">CPU</th>
+							<th class="col-xs-3">Time</th>
+						</tr>
+						</thead>
+						<tbody>
+							<tr *ngFor="let cpuInfo of cpuData.cpu; let i=index" >
+								<td class="col-xs-3" (click)="loopData(cpuInfo.Hostname)">{{cpuInfo.Hostname}}</td>
+								<td class="col-xs-3">{{cpuInfo.Memory}}</td>
+								<td class="col-xs-3">{{cpuInfo.CPU}}</td>
+								<td class="center col-xs-3">{{cpuInfo.Time}}</td>
+							</tr>						
+						</tbody>
+						</table>
+						<span class="col-xl-12" style="float:right;margin-left:10%; padding-left:80%; color:#2a6496;" (click)=refreshChart()>Default</span>
+				</div>
+					</div>
+			
+		</div>	
+		<div class="col-xl-4" *ngIf=flag> 
+				<div id="tabCpuData"
+					style="min-width: 310px; height: 400px; max-width: 800px; margin: 0 auto">
+				<div class="table-responsive">
+					<table class="table table-bordered" id="appstatustable">
+						<thead>
+						<tr>
+							<th>Hostname</th>
+							<th>Memory</th>
+							<th>CPU</th>
+							<th>Time</th>
+						</tr>
+						</thead>
+						<tbody>
+							<tr *ngFor="let cpuInfo of cpuData.cpu" >
+								
+								<td (click)="loopData(cpuInfo.Hostname)" *ngIf = '(cpuInfo.Hostname === this.hostname)'>{{cpuInfo.Hostname}}</td>
+								<td *ngIf = '(cpuInfo.Hostname === this.hostname)'>{{cpuInfo.Memory}}</td>
+								<td *ngIf = '(cpuInfo.Hostname === this.hostname)'>{{cpuInfo.CPU}}</td>
+								<td class="center" *ngIf = '(cpuInfo.Hostname === this.hostname)'>{{cpuInfo.Time}}</td>
+								
+							</tr>						
+						</tbody>
+						</table>
+				</div>
+					</div>
+			
+		</div>	
+		<div class="col-xl-8">
+			<div class="card card-block">
+				<div id="container"></div>
+			</div>
+		</div>
+	</div>
+</div>
